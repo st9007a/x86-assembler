@@ -1,0 +1,5 @@
+0X00|ADD|Eb|Gb|
+0x01|ADD|Ev|Gv|
+0x02|ADD|Gb|Eb|
+0x03|ADD|AL|lb|
+0x04|ADD|eAX|lv|
