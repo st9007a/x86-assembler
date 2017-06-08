@@ -4,6 +4,7 @@
 #include "parser.h"
 
 typedef struct _code_data Code;
+
 void parse_asm(char *asm_file) {
 
 }
