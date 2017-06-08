@@ -20,6 +20,7 @@ OpTable init_optable() {
 
 	while ((read = getline(&line, &len, f)) != -1) {
 		parse_optable(&opt[i++], line);
+		printf("op: %d, opcode: %s, oprand 1: %s, oprand 2: %s\n", opt[i - 1].op, opt[i - 1].opcode, opt[i - 1].oprand_1, opt[i - 1].oprand_2);
 	}
 	fclose(f);
 
@@ -33,10 +34,9 @@ void parse_optable(struct _op_data* opd, char* line) {
 
 	token = strtok(line, split);
 	while (token != NULL) {
-		printf("%s\n", token);
 		switch (i) {
 			case 0:
-				opd->op = atoi(token);
+				opd->op = strtol(token, NULL, 16);
 				break;
 			case 1:
 				opd->opcode = token;
