@@ -18,6 +18,7 @@ OpTable init_optable() {
 		exit(1);
 	}
 
+	printf("---init op table---\n");
 	while ((read = getline(&line, &len, f)) != -1) {
 		parse_optable(&opt[i++], line);
 		printf("op: %d, opcode: %s, oprand 1: %s, oprand 2: %s\n", opt[i - 1].op, opt[i - 1].opcode, opt[i - 1].oprand_1, opt[i - 1].oprand_2);
