@@ -10,7 +10,7 @@ class OpTable:
 
     def search(self, opcode):
         for op in self.table:
-            if op.opcode == opcode:
+            if self.table[op].opcode == opcode:
                 return self.table[op]
 
         return None
