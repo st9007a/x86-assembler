@@ -12,6 +12,8 @@ typedef struct _code_data {
 	OpData *op_info;
 } Code;
 
+static Array to_str_array(char*, char*);
 static Code parse_line(char*);
+static int is_valid_format(char*);
 void parse_asm(char*, Array*);
 #endif

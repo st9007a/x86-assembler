@@ -8,7 +8,6 @@
 int main (int argc, char** argv) {
 	OpTable op_table = new_optable();
 	Array codes = new_array(1);
-	parse_asm("./test/test.asm", &codes);
 
 	return 0;
 }
