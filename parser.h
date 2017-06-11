@@ -1,6 +1,7 @@
 #ifndef PARSER
 #define PARSER
 #include "optable.h"
+#include "d-array.h"
 
 typedef struct _code_data {
 	unsigned int loc;
@@ -11,6 +12,6 @@ typedef struct _code_data {
 	OpData *op_info;
 } Code;
 
-static void parse_line(char*);
-void parse_asm(char*);
+static Code parse_line(char*);
+void parse_asm(char*, Array*);
 #endif

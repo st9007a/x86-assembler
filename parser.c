@@ -3,10 +3,22 @@
 #include <string.h>
 #include "parser.h"
 
-static void parse_line(char* line) {
+static Code parse_line(char* line) {
+	char* split = " ";
+	char* token;
+	int i;
+	Code code;
+
+	token = strtok(line, split);
+	while (token != NULL) {
+		printf("%s\n", token);
+		token = strtok(NULL, split);
+	}
+
+	return code;
 }
 
-void parse_asm(char *asm_file) {
+void parse_asm(char *asm_file, Array *codes) {
 	FILE* f;
 	char* line;
 	size_t len = 0;
@@ -18,8 +30,9 @@ void parse_asm(char *asm_file) {
 	}
 
 	printf("---read asm file---\n");
-	while((read = getline(&line, &len, f)) != 1) {
-		parse_line(line);
+	while((read = getline(&line, &len, f)) != -1) {
+		Code code = parse_line(line);
+		push(codes, &code);
 	}
 
 }

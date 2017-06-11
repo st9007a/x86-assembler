@@ -10,7 +10,7 @@ static void parse_optable(struct _op_data* opd, char* line) {
 
 	token = strtok(line, split);
 	while (token != NULL) {
-		char* copy = malloc(strlen(token));
+		char* copy = malloc(strlen(token) + 1);
 		strcpy(copy, token);
 		switch (i) {
 			case 0:
