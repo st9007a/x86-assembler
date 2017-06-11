@@ -3,16 +3,6 @@
 #include <string.h>
 #include "parser.h"
 
-/* static Codes* new_codes() { */
-/* 	Codes* codes = malloc(sizeof(Codes)); */
-/* 	codes->push = push; */
-/* 	return codes; */
-/* }; */
-/*  */
-/* static void push(Codes, Code) { */
-/*  */
-/* }; */
-
 static void parse_line(char* line) {
 }
 
