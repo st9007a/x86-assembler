@@ -3,9 +3,42 @@
 #include <string.h>
 #include "optable.h"
 
-typedef struct _op_data* OpTable;
+typedef OpData* OpTable;
 
-OpTable init_optable() {
+static void parse_optable(struct _op_data* opd, char* line) {
+	char* split = "|";
+	char* token;
+	int i = 0;
+
+	token = strtok(line, split);
+	while (token != NULL) {
+		char* copy = malloc(strlen(token));
+		strcpy(copy, token);
+		switch (i) {
+			case 0:
+				opd->op = strtol(copy, NULL, 16);
+				break;
+			case 1:
+				opd->opcode = copy;
+				break;
+			case 2:
+				opd->oprand_1 = copy;
+				break;
+			case 3:
+				opd->oprand_2 = copy;
+				break;
+			case 4:
+				break;
+			default:
+				printf("Error: unknow token: %s\n", copy);
+				break;
+		}
+		i++;
+		token = strtok(NULL, split);
+	}
+}
+
+OpTable new_optable() {
 	OpTable opt = malloc(sizeof(struct _op_data) * 256);
 	FILE* f;
 	char* line;
@@ -28,33 +61,3 @@ OpTable init_optable() {
 	return opt;
 }
 
-void parse_optable(struct _op_data* opd, char* line) {
-	char* split = "|";
-	char* token;
-	int i = 0;
-
-	token = strtok(line, split);
-	while (token != NULL) {
-		switch (i) {
-			case 0:
-				opd->op = strtol(token, NULL, 16);
-				break;
-			case 1:
-				opd->opcode = token;
-				break;
-			case 2:
-				opd->oprand_1 = token;
-				break;
-			case 3:
-				opd->oprand_2 = token;
-				break;
-			case 4:
-				break;
-			default:
-				printf("Error: unknow token: %s\n", token);
-				break;
-		}
-		i++;
-		token = strtok(NULL, split);
-	}
-}

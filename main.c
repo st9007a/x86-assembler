@@ -4,6 +4,6 @@
 #include "parser.c"
 
 int main (int argc, char** argv) {
-	OpTable op_table = init_optable();
+	OpTable op_table = new_optable();
 	return 0;
 }
