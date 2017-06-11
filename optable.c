@@ -3,8 +3,6 @@
 #include <string.h>
 #include "optable.h"
 
-typedef OpData* OpTable;
-
 static void parse_optable(struct _op_data* opd, char* line) {
 	char* split = "|";
 	char* token;

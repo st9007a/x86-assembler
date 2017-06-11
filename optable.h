@@ -7,6 +7,8 @@ typedef struct _op_data {
 	char *oprand_2;
 } OpData;
 
+typedef OpData* OpTable;
+
 static void parse_optable(struct _op_data*, char*);
 OpData* new_optable();
 #endif
