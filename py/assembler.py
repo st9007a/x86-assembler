@@ -27,9 +27,6 @@ class Assembler:
 
     def parse_code(self):
         self.codes = [Code(elem) for elem in self.blocks['.CODE']]
-        print self.codes
-
-
 
 if __name__ == '__main__':
     asm = Assembler()
