@@ -34,6 +34,7 @@ r_m_table = {
         { 'bit': 3, 'reg': 'BP+DI' },
         { 'bit': 4, 'reg': 'SI' },
         { 'bit': 5, 'reg': 'DI' },
+        { 'bit': 6, },
         { 'bit': 7, 'reg': 'BX' },
     ],
 

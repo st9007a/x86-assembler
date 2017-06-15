@@ -1,12 +1,12 @@
-from optable import OpTable
+from oplib import Oplib
 
-global op_table
-op_table = OpTable()
+global oplib
+oplib = Oplib()
 
 class CSParser:
 
     def __init__(self, line):
-        global op_table
+        global oplib
 
         self.label = None
         self.op = None
@@ -18,15 +18,23 @@ class CSParser:
         self.line = line.strip('\n')
         parse_line = [elem for elem in self.line.split(' ') if elem != '']
 
-        if op_table.search(parse_line[0]) == None:
+        if len(parse_line) == 4:
             self.label = parse_line[0]
             self.op = parse_line[1]
-        else:
-            self.op = parse_line[0]
-
-        if len(parse_line) == 3:
             self.oprand_1 = parse_line[2]
-        elif len(parse_line) == 4:
-            self.oprand_1 = parse_line[2].replace(',', '')
             self.oprand_2 = parse_line[3]
+
+        elif len(parse_line) == 3:
+            if oplib.is_op_exist(parse_line[0]):
+                self.op = parse_line[0]
+                self.oprand_1 = parse_line[1]
+                self.oprand_2 = parse_line[2]
+            else:
+                self.label = parse_line[0]
+                self.op = parse_line[1]
+                self.oprand_1 = parse_line[2]
+
+        elif len(parse_line) == 2:
+            self.op = parser_line[0]
+            self.oprand_1 = parser_line[1]
 
