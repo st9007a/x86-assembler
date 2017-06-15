@@ -9,7 +9,8 @@ class Oplib:
     def is_op_exist(self, opc):
         return True if opc in optable else False
 
-    def find_opcode(self, opc, opr1, opr2):
+    def is_reg(self, register):
+        return True if register in reg else False
 
 if __name__ == '__main__':
     op = Oplib()

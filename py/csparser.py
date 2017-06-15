@@ -27,7 +27,7 @@ class CSParser:
         elif len(parse_line) == 3:
             if oplib.is_op_exist(parse_line[0]):
                 self.op = parse_line[0]
-                self.oprand_1 = parse_line[1]
+                self.oprand_1 = parse_line[1][:-1]
                 self.oprand_2 = parse_line[2]
             else:
                 self.label = parse_line[0]
@@ -38,3 +38,7 @@ class CSParser:
             self.op = parser_line[0]
             self.oprand_1 = parser_line[1]
 
+        # print self.label
+        # print self.op
+        # print self.oprand_1
+        # print self.oprand_2

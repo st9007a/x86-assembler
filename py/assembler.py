@@ -1,14 +1,16 @@
-from optable import OpTable
 from csparser import CSParser
+from oplib import Oplib
 
-global op_table
-op_table = OpTable()
+global oplib
+oplib = Oplib()
+
 
 class Assembler:
 
     def __init__(self):
         self.codes = None
         self.blocks = {'.HEAD': []}
+        self.locctr = 0
 
     def load(self, file_name):
         with open(file_name) as f:
@@ -27,6 +29,17 @@ class Assembler:
 
     def parse_code(self):
         self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
+
+    def pass_1(self):
+        # calculate lenght of instruction
+        # get address
+        # store label
+        global oplib
+
+        for code in self.codes:
+            if oplib.is_op_exist(code.op) == False:
+                raise Exception("Unknown op")
+
 
 if __name__ == '__main__':
     asm = Assembler()
