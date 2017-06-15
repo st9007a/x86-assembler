@@ -1,5 +1,5 @@
 from optable import OpTable
-from code import Code
+from csparser import CSParser
 
 global op_table
 op_table = OpTable()
@@ -26,7 +26,7 @@ class Assembler:
         self.parse_code()
 
     def parse_code(self):
-        self.codes = [Code(elem) for elem in self.blocks['.CODE']]
+        self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
 
 if __name__ == '__main__':
     asm = Assembler()
