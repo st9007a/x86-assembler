@@ -21,10 +21,6 @@ optable = {
             'oprand_1': 'AL',
             'oprand_2': 'i?8',
         },
-        '0x05': {
-            'oprand_1': 'EAX',
-            'oprand_2': 'i?16.32'
-        },
         '0x80': {
             'oprand_1': 'r.m?8',
             'oprand_2': 'i?8'
@@ -56,10 +52,6 @@ optable = {
             'oprand_1': 'AL',
             'oprand_2': 'i?8',
         },
-        '0x2d': {
-            'oprand_1': 'EAX',
-            'oprand_2': 'i?16.32'
-        },
         '0x82': {
             'oprand_1': 'r.m?8',
             'oprand_2': 'i?8'
@@ -90,10 +82,6 @@ optable = {
         '0x3c': {
             'oprand_1': 'AL',
             'oprand_2': 'i?8'
-        },
-        '0x3d': {
-            'oprand_1': 'EAX',
-            'oprand_2': 'i?16.32'
         },
     },
 
@@ -155,8 +143,51 @@ optable = {
             'oprand_2': 'i?8'
         }
     },
+
     'CALL': {
         '0xe8': {
+            'oprand_1': 'rel?16.32'
+        }
+    },
+
+    'JMP': {
+        '0xe9': {
+            'oprand_1': 'rel?16.32'
+        },
+        '0xeb': {
+            'oprand_1': 'rel?8'
+        }
+    },
+    'JNL': {
+        '0x7d': {
+            'oprand_1': 'rel?8'
+        },
+        '0x0f8d': {
+            'oprand_1': 'rel?16.32'
+        }
+    },
+    'JGE': {
+        '0x7d': {
+            'oprand_1': 'rel?8'
+        },
+        '0x0f8d': {
+            'oprand_1': 'rel?16.32'
+        }
+    },
+    'JLE': {
+        '0x7e': {
+            'oprand_1': 'rel?8'
+        },
+        '0x0f8e': {
+            'oprand_1': 'rel?16.32'
+        }
+    },
+
+    'JNG': {
+        '0x7e': {
+            'oprand_1': 'rel?8'
+        },
+        '0x0f8e': {
             'oprand_1': 'rel?16.32'
         }
     }
