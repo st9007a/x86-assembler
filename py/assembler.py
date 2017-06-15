@@ -30,5 +30,5 @@ class Assembler:
 
 if __name__ == '__main__':
     asm = Assembler()
-    asm.load('../test/uASM-TV01A.asm')
+    asm.load('../test/test.asm')
 
