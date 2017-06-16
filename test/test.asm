@@ -1,3 +1,3 @@
 .DATA
 .CODE
-        MOV
+        MOV ax, bx

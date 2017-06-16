@@ -10,7 +10,7 @@ class DSParser:
 
         if len(parse_line) != 3:
             raise Exception('Syntax error at data section')
-        elif parse_line[1] not in ['DB', 'DW', 'DD']:
+        elif parse_line[1] not in ['DB', 'DW']:
             raise Exception('Unknown declaration')
 
         self.label = parse_line[0]
@@ -19,7 +19,5 @@ class DSParser:
             self.length = 1
         elif parse_line[1] == 'DW':
             self.length = 2
-        else:
-            self.length = 4
 
 
