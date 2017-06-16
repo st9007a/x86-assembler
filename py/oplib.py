@@ -33,7 +33,15 @@ class Oplib:
         # check symtable??
 
     def get_opcode(self, op, opr_1, opr_2):
-        # check condition
+        # filter opr_1 condition
+        # filter opr_2 condition
+        if self.is_op_exist(op) == False:
+            raise Exception("Unknown op \"" + op + "\"")
+
+        filter = {}
+        for opcode in self.optable[op]:
+            type = self.optable[op][opcode].split('?')[0].split('.') # type = ['r', 'm'] or ['r'] or ['i']
+            bit = [int(elem) for elem in self.optable[op][opcode].split('?')[1].split('.')] # bit = [8] or [16, 32]
 
 
 if __name__ == '__main__':
