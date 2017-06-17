@@ -5,12 +5,13 @@ class Oplib:
 
     def __init__(self):
         self.optable = optable
+        self.reg = reg
 
     def is_op_exist(self, opc):
-        return True if opc in optable else False
+        return True if opc in self.optable else False
 
     def is_reg(self, register):
-        return True if register in reg else False
+        return True if register in self.reg else False
 
     def get_reg_size(self, register):
         if self.is_reg(register) == False:
@@ -37,11 +38,6 @@ class Oplib:
         # filter opr_2 condition
         if self.is_op_exist(op) == False:
             raise Exception("Unknown op \"" + op + "\"")
-
-        filter = {}
-        for opcode in self.optable[op]:
-            type = self.optable[op][opcode].split('?')[0].split('.') # type = ['r', 'm'] or ['r'] or ['i']
-            bit = [int(elem) for elem in self.optable[op][opcode].split('?')[1].split('.')] # bit = [8] or [16, 32]
 
 
 if __name__ == '__main__':
