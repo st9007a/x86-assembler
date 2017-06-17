@@ -1,5 +1,6 @@
 import re
 from csparser import CSParser
+from dsparser import DSParser
 from oplib import Oplib
 
 global oplib
@@ -31,7 +32,10 @@ class Assembler:
         self.parse_code()
 
     def parse_code(self):
-        self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
+        if '.DATA' in self.blocks:
+            self.data = [DSParser(elem) for elem in self.blocks['.DATA']]
+        if '.CODE' in self.blocks:
+            self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
 
 
     def pass_1(self):
@@ -99,6 +103,9 @@ class Assembler:
             # print code.oprand_2
 
     def pass_2(self):
+        # generate opj code
+        # write list file
+        # write object file
         global oplib
 
 if __name__ == '__main__':
