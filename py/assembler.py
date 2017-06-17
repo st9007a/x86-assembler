@@ -127,6 +127,9 @@ class Assembler:
                 else:
                     raise Exception("Unknown oprand_2 \"" + code.oprand_2['value'] + "\"")
 
+            opcode = oplib.get_opcode(code.op, code.oprand_1, code.oprand_2)
+            print opcode
+
 if __name__ == '__main__':
     asm = Assembler()
     asm.load('../test/test.asm')
