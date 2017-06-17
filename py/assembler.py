@@ -49,7 +49,10 @@ class Assembler:
                 raise Exception("Unknown op \"" + code.op + "\"")
 
             if code.label != None:
-                self.symtab[code.label] = self.locctr
+                if code.label not in self.symtab:
+                    self.symtab[code.label] = self.locctr
+                else:
+                    raise Exception("Duplicate label \"" + code.label + "\"")
 
             # check type and size ? r , m , i ? 8 , 16
             if code.oprand_1['value'] != None:
@@ -62,12 +65,12 @@ class Assembler:
                 elif re.match("^[0-9]+$", code.oprand_1['value']) != None:
                     code.oprand_1['type'] = 'i'
                     code.oprand_1['size'] = 16
-                elif re.match("^[0-9a-fA-F]{2}$", code.oprand_1['value']) != None:
-                    code.oprand_1['type'] = 'i'
-                    code.oprand_1['size'] = 8
-                elif re.match("^[0-9a-fA-F]{4}$", code.oprand_1['value']) != None:
-                    code.oprand_1['type'] = 'i'
-                    code.oprand_1['size'] = 16
+                # elif re.match("^[0-9a-fA-F]{2}$", code.oprand_1['value']) != None:
+                #     code.oprand_1['type'] = 'i'
+                #     code.oprand_1['size'] = 8
+                # elif re.match("^[0-9a-fA-F]{4}$", code.oprand_1['value']) != None:
+                #     code.oprand_1['type'] = 'i'
+                #     code.oprand_1['size'] = 16
                 elif code.oprand_1['value'] in self.symtab:
                     code.oprand_1['type'] = 'm'
                     code.oprand_1['size'] = 16
@@ -84,18 +87,19 @@ class Assembler:
                 elif re.match("^[0-9]+$", code.oprand_2['value']) != None:
                     code.oprand_2['type'] = 'i'
                     code.oprand_2['size'] = 16
-                elif re.match("^[0-9a-fA-F]{2}$", code.oprand_2['value']) != None:
-                    code.oprand_2['type'] = 'i'
-                    code.oprand_2['size'] = 8
-                elif re.match("^[0-9a-fA-F]{4}$", code.oprand_2['value']) != None:
-                    code.oprand_2['type'] = 'i'
-                    code.oprand_2['size'] = 16
+                # elif re.match("^[0-9a-fA-F]{2}$", code.oprand_2['value']) != None:
+                #     code.oprand_2['type'] = 'i'
+                #     code.oprand_2['size'] = 8
+                # elif re.match("^[0-9a-fA-F]{4}$", code.oprand_2['value']) != None:
+                #     code.oprand_2['type'] = 'i'
+                #     code.oprand_2['size'] = 16
                 elif code.oprand_2['value'] in self.symtab:
                     code.oprand_2['type'] = 'm'
                     code.oprand_2['size'] = 16
                 else:
                     raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
 
+            code.loc = self.locctr
             self.locctr = self.locctr + 4
             # print self.locctr
             # print code.op
