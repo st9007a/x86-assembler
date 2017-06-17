@@ -6,7 +6,6 @@ from oplib import Oplib
 global oplib
 oplib = Oplib()
 
-
 class Assembler:
 
     def __init__(self):
@@ -71,11 +70,11 @@ class Assembler:
                 # elif re.match("^[0-9a-fA-F]{4}$", code.oprand_1['value']) != None:
                 #     code.oprand_1['type'] = 'i'
                 #     code.oprand_1['size'] = 16
-                elif code.oprand_1['value'] in self.symtab:
-                    code.oprand_1['type'] = 'm'
-                    code.oprand_1['size'] = 16
-                else:
-                    raise Exception("Unknown oprand \"" + code.oprand_1['value'] + "\"")
+                # elif code.oprand_1['value'] in self.symtab:
+                #     code.oprand_1['type'] = 'm'
+                #     code.oprand_1['size'] = 16
+                # else:
+                #     raise Exception("Unknown oprand \"" + code.oprand_1['value'] + "\"")
 
             if code.oprand_2['value'] != None:
                 if code.oprand_2['value'][:1] == '[':
@@ -93,15 +92,16 @@ class Assembler:
                 # elif re.match("^[0-9a-fA-F]{4}$", code.oprand_2['value']) != None:
                 #     code.oprand_2['type'] = 'i'
                 #     code.oprand_2['size'] = 16
-                elif code.oprand_2['value'] in self.symtab:
-                    code.oprand_2['type'] = 'm'
-                    code.oprand_2['size'] = 16
-                else:
-                    raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
+                # elif code.oprand_2['value'] in self.symtab:
+                #     code.oprand_2['type'] = 'm'
+                #     code.oprand_2['size'] = 16
+                # else:
+                #     raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
 
             code.loc = self.locctr
             self.locctr = self.locctr + 4
             # print self.locctr
+            # print code.loc
             # print code.op
             # print code.oprand_1
             # print code.oprand_2
@@ -112,8 +112,23 @@ class Assembler:
         # write object file
         global oplib
 
+        for code in self.codes:
+            if code.oprand_1['value'] != None and code.oprand_1['type'] == None:
+                if code.oprand_1['value'] in self.symtab:
+                    code.oprand_1['type'] = 'm'
+                    code.oprand_1['size'] = 16
+                else:
+                    raise Exception("Unknown oprand_1 \"" + code.oprand_1['value'] + "\"")
+
+            if code.oprand_2['value'] != None and code.oprand_2['type'] == None:
+                if code.oprand_2['value'] in self.symtab:
+                    code.oprand_2['type'] = 'm'
+                    code.oprand_2['size'] = 16
+                else:
+                    raise Exception("Unknown oprand_2 \"" + code.oprand_2['value'] + "\"")
+
 if __name__ == '__main__':
     asm = Assembler()
     asm.load('../test/test.asm')
     asm.pass_1()
-
+    asm.pass_2()
