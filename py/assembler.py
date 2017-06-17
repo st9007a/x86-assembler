@@ -42,17 +42,17 @@ class Assembler:
 
         for code in self.codes:
             if oplib.is_op_exist(code.op) == False:
-                raise Exception("Unknown op")
+                raise Exception("Unknown op \"" + code.op + "\"")
 
             if code.label != None:
                 self.symtab[code.label] = self.locctr
 
             # check type and size ? r , m , i ? 8 , 16
             if code.oprand_1['value'] != None:
-                if code.oprand_1['value'][:1] = '[':
+                if code.oprand_1['value'][:1] == '[':
                     code.oprand_1['type'] = 'm' # memory
                     code.oprand_1['size'] = 16
-                elif oplib.is_reg(code.oprand_1) == True:
+                elif oplib.is_reg(code.oprand_1['value']) == True:
                     code.oprand_1['type'] = 'r' # register
                     code.oprand_1['size'] = oplib.get_reg_size(code.oprand_1['value'])
                 elif re.match("^[0-9]+$", code.oprand_1['value']) is not None:
@@ -72,10 +72,10 @@ class Assembler:
                     raise Exception("Unknown oprand \"" + code.oprand_1['value'] + "\"")
 
             if code.oprand_2['value'] != None:
-                if code.oprand_2['value'][:1] = '[':
+                if code.oprand_2['value'][:1] == '[':
                     code.oprand_2['type'] = 'm' # memory
                     code.oprand_2['size'] = 16
-                elif oplib.is_reg(code.oprand_2) == True:
+                elif oplib.is_reg(code.oprand_2['value']) == True:
                     code.oprand_2['type'] = 'r' # register
                     code.oprand_2['size'] = oplib.get_reg_size(code.oprand_2['value'])
                 elif re.match("^[0-9]+$", code.oprand_2['value']) is not None:
@@ -94,11 +94,17 @@ class Assembler:
                 else:
                     raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
 
-            if code.oprand_1['value'] != None and code.oprand_2['value'] != None:
-                for opcode in oplib.optable[code.op]:
+            self.locctr = self.locctr + 4
+            # print self.locctr
+            # print code.op
+            # print code.oprand_1
+            # print code.oprand_2
 
+    def pass_2(self):
+        global oplib
 
 if __name__ == '__main__':
     asm = Assembler()
     asm.load('../test/test.asm')
+    asm.pass_1()
 

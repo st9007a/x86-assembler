@@ -14,12 +14,12 @@ class CSParser:
         self.oprand_1 = {
             'value': None,
             'size': None,
-            'type': None;
+            'type': None,
         }
         self.oprand_2 = {
             'value': None,
             'size': None,
-            'type': None;
+            'type': None,
         }
         self.loc = None
         self.obj_code = None
@@ -30,7 +30,7 @@ class CSParser:
         if len(parse_line) == 4:
             self.label = parse_line[0]
             self.op = parse_line[1]
-            self.oprand_1['value'] = parse_line[2]
+            self.oprand_1['value'] = parse_line[2][:-1]
             self.oprand_2['value'] = parse_line[3]
 
         elif len(parse_line) == 3:
@@ -46,3 +46,7 @@ class CSParser:
         elif len(parse_line) == 2:
             self.op = parser_line[0]
             self.oprand_1['value'] = parser_line[1]
+
+        # print self.op
+        # print self.oprand_1
+        # print self.oprand_2
