@@ -44,7 +44,10 @@ class Assembler:
             if oplib.is_op_exist(code.op) == False:
                 raise Exception("Unknown op")
 
-            # check type ? r , m , i
+            if code.label != None:
+                self.symtab[code.label] = self.locctr
+
+            # check type and size ? r , m , i ? 8 , 16
             if code.oprand_1['value'] != None:
                 if code.oprand_1['value'][:1] = '[':
                     code.oprand_1['type'] = 'm' # memory
@@ -57,22 +60,39 @@ class Assembler:
                     if re.match("^[0-9]+$", code.oprand_1['value']) is not None:
                         code.oprand_1['size'] = 16
                     elif re.match("^[0-9a-fA-F]{2}$"):
-                        code.oprand_1['szie'] = 8
+                        code.oprand_1['size'] = 8
                     elif re.match("^[0-9a-fA-F]{4}$"):
-                        code.oprand_1['szie'] = 16
+                        code.oprand_1['size'] = 16
                     else:
                         raise Exception("Unknown oprand \"" + code.oprand_1['value'] + "\"")
                 elif code.oprand_1['value'] in self.symtab:
                     code.oprand_1['type'] = 'm'
                     code.oprand_1['size'] = 16
+                else:
+                    raise Exception("Unknown oprand \"" + code.oprand_1['value'] + "\"")
 
             if code.oprand_2['value'] != None:
                 if code.oprand_2['value'][:1] = '[':
                     code.oprand_2['type'] = 'm' # memory
+                    code.oprand_2['size'] = 16
                 elif oplib.is_reg(code.oprand_2) == True:
                     code.oprand_2['type'] = 'r' # register
+                    code.oprand_2['size'] = oplib.get_reg_size(code.oprand_2['value'])
                 elif re.match("^[0-9]+$", code.oprand_2['value']) is not None:
                     code.oprand_2['type'] = 'i'
+                    if re.match("^[0-9]+$", code.oprand_2['value']) is not None:
+                        code.oprand_2['size'] = 16
+                    elif re.match("^[0-9a-fA-F]{2}$"):
+                        code.oprand_2['size'] = 8
+                    elif re.match("^[0-9a-fA-F]{4}$"):
+                        code.oprand_2['size'] = 16
+                    else:
+                        raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
+                elif code.oprand_2['value'] in self.symtab:
+                    code.oprand_2['type'] = 'm'
+                    code.oprand_2['size'] = 16
+                else:
+                    raise Exception("Unknown oprand \"" + code.oprand_2['value'] + "\"")
 
             if code.oprand_1['value'] != None and code.oprand_2['value'] != None:
                 for opcode in oplib.optable[code.op]:
