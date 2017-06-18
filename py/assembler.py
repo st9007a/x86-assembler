@@ -54,7 +54,11 @@ class Assembler:
         # parse data
         if self.data != None:
             for data in self.data:
-
+                if data.label in self.symtab:
+                    raise Exception("Duplicate label \"" + data.label + "\"")
+                self.symtab[data.label] = self.locctr
+                data.loc = self.locctr
+                self.locctr = self.locctr + data.length
 
         # parse code
         for code in self.codes:
@@ -132,6 +136,9 @@ class Assembler:
         # write list file
         # write object file
         global oplib
+
+        if self.data != None:
+            for data in self.data:
 
         for code in self.codes:
             # lable
