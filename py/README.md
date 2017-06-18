@@ -1,6 +1,6 @@
 # x86 assembler
 
-## Useage
+## Note
 
 1. Not support comment
 2. Not support any prefix symbol
@@ -10,3 +10,9 @@
 6. `CALL` and `J` only support rel
 7. Register you can use see `const/reg.py`
 8. Test file at `test/test.asm`
+
+## Usage
+
+`python assembler.py [ASM FILE] -o [LIST FILE]`
+
+ex: `python assembler.py test.asm -o test.lst`
