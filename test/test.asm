@@ -1,8 +1,8 @@
 .DATA
 ALPHA   DB 1
-BETA    DW A1
+BETA    DW "a"
 .CODE
         MOV AX, BX
         ADD AX, [BX]
-LABEL1  MOV DX, [AL]
+LABEL1  MOV DX, [SI]
         ADD DX, LABEL1

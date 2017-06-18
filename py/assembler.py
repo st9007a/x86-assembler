@@ -1,4 +1,5 @@
 import re
+import os
 from csparser import CSParser
 from dsparser import DSParser
 from oplib import Oplib
@@ -14,7 +15,7 @@ class Assembler:
         self.locctr = 0
         self.symtab = {}
 
-        self.asm_file_name
+        self.asm_file_name = None
 
     def load(self, file_name):
         self.asm_file_name = file_name
@@ -39,7 +40,18 @@ class Assembler:
         if '.CODE' in self.blocks:
             self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
 
-    def write_list_file(self, code):
+    def write_data_to_list_file(self, data):
+        with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
+            loc = hex(data.loc)[2:].upper() if data != None else ''
+            obj_code = None
+            if data.length == 1:
+                obj_code = format(data.var, '02x')
+            else:
+                obj_code = data.var.encode('hex')
+
+            f.write(loc + ' ' + obj_code + ' ' + data.line + '\n')
+
+    def write_code_to_list_file(self, code):
         with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
             loc = hex(code.loc)[2:].upper() if code != None else ''
             obj_code = code.obj_code.upper() if code.obj_code != None else ''
@@ -139,6 +151,7 @@ class Assembler:
 
         if self.data != None:
             for data in self.data:
+                self.write_data_to_list_file(data)
 
         for code in self.codes:
             # lable
@@ -202,14 +215,22 @@ class Assembler:
                     disp = self.symtab[code.oprand_1['value']]
 
             mod_reg_rm = mod << 6 | reg << 3 | rm
-            code.obj_code = format(opcode, '02x') + format(mod_reg_rm, '02x')
+            code.obj_code = opcode[2:] + format(mod_reg_rm, '02x')
             if disp != None:
                 code.obj_code = code.obj_code + format(disp, '04x')
+
+            self.write_code_to_list_file(code)
 
 
 
 if __name__ == '__main__':
+    if os.path.isfile('./test/test.lst'):
+        os.remove('./test/test.lst')
+
+    if os.path.isfile('./test/test.obj'):
+        os.remove('./test/test.obj')
+
     asm = Assembler()
-    asm.load('../test/test.asm')
+    asm.load('./test/test.asm')
     asm.pass_1()
-    # asm.pass_2()
+    asm.pass_2()

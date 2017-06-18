@@ -1,0 +1,3 @@
+0 01 ALPHA   DB 1
+1 61 BETA    DW "a"
+3 89C3 MOV AX, BX

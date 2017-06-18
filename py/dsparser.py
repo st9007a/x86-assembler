@@ -21,6 +21,6 @@ class DSParser:
         elif parse_line[1] == 'DW':
             self.length = 2
 
-        self.var = parse_line[2] if parse_line[2][:-1] == '"' or parse_line[2][:-1] == '\'' else int(parse_line[2])
+        self.var = parse_line[2][1:-1] if parse_line[2][:1] == '"' or parse_line[2][:1] == "'" else int(parse_line[2])
 
 
