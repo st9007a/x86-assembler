@@ -6,6 +6,7 @@ class Oplib:
     def __init__(self):
         self.optable = optable
         self.reg = reg
+        self.r_m_table = r_m_table
 
     def is_op_exist(self, opc):
         return True if opc in self.optable else False
@@ -18,20 +19,6 @@ class Oplib:
             raise Exception("Not a register")
 
         return reg[register]['bit']
-
-    def check_direction(self, opr_1, opr_2):
-        if self.is_reg(opr_1) == True and self.is_reg(opr_2) == True:
-            return 1 # reg to reg
-        if self.is_reg(opr_1) == True and opr_2[:1] == '[' and opr_2[-1:] == ']':
-            return 1 # r/m to reg
-        if opr_1[:1] == '[' and opr_1[-1:] == ']' and self.is_reg(opr_2) == True:
-            return 0 # reg to r/m
-
-    def check_size(self, opr):
-        if self.is_reg(opr):
-            return 1 if self.get_reg_size(opr) == 16 else 0
-
-        # check symtable??
 
     def get_opcode(self, op, opr_1, opr_2):
         # filter opr_1 condition
@@ -54,6 +41,21 @@ class Oplib:
                     return opcode
 
         raise Exception("Opcode not found \n" + str(opr_1) + "\n" + str(opr_2))
+
+    def get_r_m_value(self, mod, register):
+        if mod < 3 and mod >=0:
+            table_id = '1' if mod == 0 else '2'
+            if register[:1] == '[' and register[-1:] == ']':
+                for r_m in self.r_m_table[table_id]:
+                    if register == self.r_m_table[table_id]['reg']:
+                        return self.r_m_table[table_id]['bit']
+            else:
+                return self.reg[register]['value']
+
+        elif mod == 3:
+            return self.reg[register]['value']
+
+        return None
 
 
 if __name__ == '__main__':
