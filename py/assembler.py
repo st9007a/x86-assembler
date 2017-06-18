@@ -1,5 +1,6 @@
 import re
 import os
+import argparse
 from csparser import CSParser
 from dsparser import DSParser
 from oplib import Oplib
@@ -16,6 +17,7 @@ class Assembler:
         self.symtab = {}
 
         self.asm_file_name = None
+        self.out_file_name = None
 
     def load(self, file_name):
         self.asm_file_name = file_name
@@ -34,6 +36,9 @@ class Assembler:
 
         self.parse_code()
 
+    def set_output_file(self, out):
+        self.out_file_name = out
+
     def parse_code(self):
         if '.DATA' in self.blocks:
             self.data = [DSParser(elem) for elem in self.blocks['.DATA']]
@@ -41,7 +46,7 @@ class Assembler:
             self.codes = [CSParser(elem) for elem in self.blocks['.CODE']]
 
     def write_data_to_list_file(self, data):
-        with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
+        with open(self.out_file_name, 'a') as f:
             loc = format(data.loc, '04x').upper() if data != None else ''
             obj_code = None
             if data.length == 1:
@@ -54,7 +59,7 @@ class Assembler:
             f.write(loc + ' ' + obj_code + ' ' + data.line + '\n')
 
     def write_code_to_list_file(self, code):
-        with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
+        with open(self.out_file_name, 'a') as f:
             loc = format(code.loc, '04x').upper() if code != None else ''
             obj_code = code.obj_code.upper() if code.obj_code != None else ''
             f.write(loc + ' ' + obj_code + ' ' + code.line + '\n')
@@ -230,13 +235,26 @@ class Assembler:
 
 
 if __name__ == '__main__':
-    if os.path.isfile('./test/test.lst'):
-        os.remove('./test/test.lst')
+    # if os.path.isfile('./test/test.lst'):
+    #     os.remove('./test/test.lst')
+    #
+    # if os.path.isfile('./test/test.obj'):
+    #     os.remove('./test/test.obj')
 
-    if os.path.isfile('./test/test.obj'):
-        os.remove('./test/test.obj')
+    parser = argparse.ArgumentParser(description = 'a mini x86 assembler')
+    parser.add_argument('file', help = 'assembly file')
+    parser.add_argument('-o', '--output', help = 'output file name')
+    args = parser.parse_args()
 
     asm = Assembler()
-    asm.load('./test/test.asm')
+    if args.output != None:
+        asm.set_output_file(args.output)
+    else:
+        asm.set_output_file(args.file[:-4] + '.lst')
+
+    if os.path.isfile(asm.out_file_name):
+        raise Exception("Output file name is exist")
+
+    asm.load(args.file)
     asm.pass_1()
     asm.pass_2()

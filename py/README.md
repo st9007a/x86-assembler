@@ -8,3 +8,5 @@
 4. Use `space` instead of `tab`
 5. Only support `.DATA` and `.CODE` segment
 6. `CALL` and `J` only support rel
+7. Register you can use see `const/reg.py`
+8. Test file at `test/test.asm`
