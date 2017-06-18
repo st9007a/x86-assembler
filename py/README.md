@@ -16,3 +16,4 @@
 `python assembler.py [ASM FILE] -o [LIST FILE]`
 
 ex: `python assembler.py test.asm -o test.lst`
+`python assembler.py -h` for help
