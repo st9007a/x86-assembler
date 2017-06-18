@@ -43,13 +43,15 @@ class Oplib:
         raise Exception("Opcode not found \n" + str(opr_1) + "\n" + str(opr_2))
 
     def get_r_m_value(self, mod, register):
+        # print mod
+        # print register
         if mod < 3 and mod >=0:
             table_id = '1' if mod == 0 else '2'
             if register[:1] == '[' and register[-1:] == ']':
                 for r_m in self.r_m_table[table_id]:
-                    if register == self.r_m_table[table_id]['reg']:
-                        return self.r_m_table[table_id]['bit']
-            else:
+                    if register[1:-1] == r_m['reg']:
+                        return r_m['bit']
+            elif register in self.reg:
                 return self.reg[register]['value']
 
         elif mod == 3:

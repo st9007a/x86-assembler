@@ -42,18 +42,20 @@ class Assembler:
 
     def write_data_to_list_file(self, data):
         with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
-            loc = hex(data.loc)[2:].upper() if data != None else ''
+            loc = format(data.loc, '04x').upper() if data != None else ''
             obj_code = None
             if data.length == 1:
                 obj_code = format(data.var, '02x')
             else:
                 obj_code = data.var.encode('hex')
+                if len(obj_code) == 2:
+                    obj_code = '00' + obj_code
 
             f.write(loc + ' ' + obj_code + ' ' + data.line + '\n')
 
     def write_code_to_list_file(self, code):
         with open(self.asm_file_name[:-4] + '.lst', 'a') as f:
-            loc = hex(code.loc)[2:].upper() if code != None else ''
+            loc = format(code.loc, '04x').upper() if code != None else ''
             obj_code = code.obj_code.upper() if code.obj_code != None else ''
             f.write(loc + ' ' + obj_code + ' ' + code.line + '\n')
 
@@ -175,6 +177,10 @@ class Assembler:
             rm = None
             disp = None
 
+            # print code.op
+            # print code.oprand_1
+            # print code.oprand_2
+
             # mod reg r/m
             if code.oprand_2['value'] != None and code.oprand_1['value'] != None:
                 # two argument
@@ -194,14 +200,14 @@ class Assembler:
                         disp = self.symtab[code.oprand_1['value']]
 
                 elif code.oprand_1['type'] == 'r' and code.oprand_2['type'] == 'm':
-                    mode = 0
+                    mod = 0
                     reg = oplib.get_r_m_value(mod, code.oprand_1['value'])
                     rm = oplib.get_r_m_value(mod, code.oprand_2['value'])
 
                     if rm == None:
                         mod = 2
                         rm = 6
-                        disp = self.symtab[code.oprand_1['value']]
+                        disp = self.symtab[code.oprand_2['value']]
 
             elif code.oprand_1['value'] != None:
                 reg = 0
